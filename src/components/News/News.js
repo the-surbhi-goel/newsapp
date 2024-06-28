@@ -1,8 +1,22 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 
+import PropTypes from "prop-types";
+import Spinner from "../Spinner/Spinner";
+
 export default class News extends Component {
-  pageSize = 30;
+
+  static defaultProps = {
+    country: "in",
+    pageSize: 10,
+    category: 'general'
+  }
+
+  static propTypes = {
+    country: PropTypes.string.isRequired,
+    pageSize: PropTypes.number,
+    category: PropTypes.string
+  };
 
   constructor() {
     super();
@@ -33,10 +47,14 @@ export default class News extends Component {
   };
 
   handleAPIData = async (pageNo) => {
+    this.setState({ loader: true });
     let url =
-      "https://newsapi.org/v2/top-headlines?country=in&apiKey=31613b98c9864e3ba1a217e357eea17d&page=" +
-      pageNo +
-      `&pageSize=${this.pageSize}`;
+      `https://newsapi.org/v2/top-headlines?
+      country=${this.props.country}&
+      category=${this.props.category}&
+      apiKey=31613b98c9864e3ba1a217e357eea17d&
+      page=${pageNo}&
+      pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let jsonData = await data.json();
 
@@ -57,7 +75,8 @@ export default class News extends Component {
 
     if (pageNo === 1) {
       this.setState({
-        totalPages: jsonData.totalResults / this.pageSize,
+        totalPages: jsonData.totalResults / this.props.pageSize,
+        loader: false,
       });
     }
 
@@ -66,11 +85,11 @@ export default class News extends Component {
 
   // It'll run after render() method
   async componentDidMount() {
-    let jsonData = await this.handleAPIData(this.state.page);
-    this.setState({
-      articles: jsonData.articles,
-      loader: false,
-    });
+    // let jsonData = await this.handleAPIData(this.state.page);
+    // this.setState({
+    //   articles: jsonData.articles,
+    //   loader: false,
+    // });
   }
 
   render() {
@@ -78,38 +97,46 @@ export default class News extends Component {
       <>
         <div className="container my-3">
           <h2> New: Top Headlines</h2>
+
+          {/* START - Spinner */}
+          {this.state.loader && <Spinner />}
+          {/* END - Spinner */}
+
           <div className="row">
-            {this.state.articles.map((el) => {
-              return (
-                <div className="col-md-4">
-                  <NewsItem
-                    key={el.id}
-                    title={el.title}
-                    description={el.description}
-                    imageUrl={el.urlToImage}
-                    newsUrl={el.url}
-                  />
-                </div>
-              );
-            })}
+            {!this.state.loader &&
+              this.state.articles.map((el) => {
+                return (
+                  <div className="col-md-4">
+                    <NewsItem
+                      key={el.id}
+                      title={el.title}
+                      description={el.description}
+                      imageUrl={el.urlToImage}
+                      newsUrl={el.url}
+                    />
+                  </div>
+                );
+              })}
           </div>
         </div>
-        <div className="container d-flex justify-content-between">
-          <button
-            disabled={this.state.page === 1}
-            className="btn btn-success"
-            onClick={this.onPrevClick}
-          >
-            &larr; Previous
-          </button>
-          <button
-            disabled={!(this.state.page < this.state.totalPages)}
-            className="btn btn-success"
-            onClick={this.onNextClick}
-          >
-            Next &rarr;
-          </button>
-        </div>
+        {!this.state.loader && (
+          <div className="container d-flex justify-content-between">
+            <button
+              disabled={this.state.page === 1}
+              className="btn btn-success"
+              onClick={this.onPrevClick}
+            >
+              &larr; Previous
+            </button>
+            <button
+              disabled={!(this.state.page < this.state.totalPages)}
+              className="btn btn-success"
+              onClick={this.onNextClick}
+            >
+              Next &rarr;
+            </button>
+          </div>
+        )}
       </>
     );
   }
