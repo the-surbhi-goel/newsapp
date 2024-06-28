@@ -5,17 +5,16 @@ import PropTypes from "prop-types";
 import Spinner from "../Spinner/Spinner";
 
 export default class News extends Component {
-
   static defaultProps = {
     country: "in",
     pageSize: 10,
-    category: 'general'
-  }
+    category: "general",
+  };
 
   static propTypes = {
     country: PropTypes.string.isRequired,
     pageSize: PropTypes.number,
-    category: PropTypes.string
+    category: PropTypes.string,
   };
 
   constructor() {
@@ -48,13 +47,9 @@ export default class News extends Component {
 
   handleAPIData = async (pageNo) => {
     this.setState({ loader: true });
-    let url =
-      `https://newsapi.org/v2/top-headlines?
-      country=${this.props.country}&
-      category=${this.props.category}&
-      apiKey=31613b98c9864e3ba1a217e357eea17d&
-      page=${pageNo}&
-      pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?apiKey=31613b98c9864e3ba1a217e357eea17d&` + 
+    `country=${this.props.country}&category=${this.props.category}&page=${pageNo}&` + 
+    `pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let jsonData = await data.json();
 
@@ -85,11 +80,11 @@ export default class News extends Component {
 
   // It'll run after render() method
   async componentDidMount() {
-    // let jsonData = await this.handleAPIData(this.state.page);
-    // this.setState({
-    //   articles: jsonData.articles,
-    //   loader: false,
-    // });
+    let jsonData = await this.handleAPIData(this.state.page);
+    this.setState({
+      articles: jsonData.articles,
+      loader: false,
+    });
   }
 
   render() {
