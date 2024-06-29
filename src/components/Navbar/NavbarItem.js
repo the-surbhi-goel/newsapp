@@ -13,9 +13,8 @@ export default class NavbarItem extends Component {
 
   render() {
     return (
-      <NavLink
-        className={(isActive) => `nav-link ${isActive ? "active" : ""}`}
-        to={`/${this.props.item}`}
+      <NavLink to={`/${this.props.item}`}
+        className={({isActive}) => `nav-link ${isActive ? "active" : "pending"}`}
       >
         {this.props.item.charAt(0).toUpperCase() + this.props.item.substring(1, this.props.item.length)}
       </NavLink>

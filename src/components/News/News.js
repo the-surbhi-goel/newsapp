@@ -47,13 +47,19 @@ export default class News extends Component {
 
   handleAPIData = async (pageNo) => {
     this.setState({ loader: true });
-    let url = `https://newsapi.org/v2/top-headlines?apiKey=31613b98c9864e3ba1a217e357eea17d&` + 
-    `country=${this.props.country}&category=${this.props.category}&page=${pageNo}&` + 
-    `pageSize=${this.props.pageSize}`;
+    let url =
+      `https://newsapi.org/v2/top-headlines?apiKey=31613b98c9864e3ba1a217e357eea17d&` +
+      `country=${this.props.country}&category=${this.props.category}&page=${pageNo}&` +
+      `pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let jsonData = await data.json();
 
     jsonData?.articles.forEach((el) => {
+      if (el.publishedAt) {
+        let d = new Date(el.publishedAt);
+        el.publishedAt = d.toGMTString();
+      }
+
       if (el.title) {
         el.title = el.title.length > 40 ? el.title.slice(0, 40) + "..." : el.title;
       } else {
@@ -71,6 +77,10 @@ export default class News extends Component {
     if (pageNo === 1) {
       this.setState({
         totalPages: jsonData.totalResults / this.props.pageSize,
+        loader: false,
+      });
+    } else {
+      this.setState({
         loader: false,
       });
     }
@@ -101,9 +111,11 @@ export default class News extends Component {
             {!this.state.loader &&
               this.state.articles.map((el) => {
                 return (
-                  <div className="col-md-4">
+                  <div className="col-md-4 py-3">
                     <NewsItem
                       key={el.id}
+                      author={el.author}
+                      date={el.publishedAt}
                       title={el.title}
                       description={el.description}
                       imageUrl={el.urlToImage}

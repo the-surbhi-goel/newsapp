@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import NavbarItem from "./NavbarItem";
-// import PropTypes from "prop-types";
-// import { Link, NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export class Navbar extends Component {
-  // static propTypes = {};
+  static defaultProps = {
+    pageSize: 10,
+  };
+
+  static propTypes = {
+    pageSize: PropTypes.number.isRequired,
+  };
 
   categoryList = [
     "business",
@@ -15,6 +20,15 @@ export class Navbar extends Component {
     "sports",
     "technology",
   ];
+
+  liStyle = {};
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      pageSize: this.props.pageSize,
+    };
+  }
 
   render() {
     return (
@@ -44,6 +58,51 @@ export class Navbar extends Component {
                     </li>
                   );
                 })}
+              </ul>
+              <ul className="navbar-nav">
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="/#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Articles Per Page
+                  </a>
+                  <ul className="dropdown-menu p-0">
+                    <li
+                      className={`nav-item p-3 text-center ${
+                        this.props.pageSize === 5 ? "btn btn-primary w-100" : ""
+                      }`}
+                      onClick={() => {
+                        this.props.changePageSize(5);
+                      }}
+                    >
+                      5
+                    </li>
+                    <li
+                      className={`nav-item p-3 text-center ${
+                        this.props.pageSize === 10 ? "btn btn-primary w-100" : ""
+                      }`}
+                      onClick={() => {
+                        this.props.changePageSize(10);
+                      }}
+                    >
+                      10
+                    </li>
+                    <li
+                      className={`nav-item p-3 text-center ${
+                        this.props.pageSize === 20 ? "btn btn-primary w-100" : ""
+                      }`}
+                      onClick={() => {
+                        this.props.changePageSize(20);
+                      }}
+                    >
+                      20
+                    </li>
+                  </ul>
+                </li>
               </ul>
             </div>
           </div>
