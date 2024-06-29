@@ -7,3 +7,12 @@
     background-color: #198754 !important;
     border-color: #198754 !important;
 }
+
+.country-dropdown {
+    min-width: 253px;
+}
+
+.country-dropdown li {
+    list-style: none;
+    width: 20%;
+}

@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import NavbarItem from "./NavbarItem";
 import PropTypes from "prop-types";
 
-import './Navbar.css';
+import "./Navbar.css";
 
 export class Navbar extends Component {
   static defaultProps = {
     pageSize: 10,
+    country: "in",
     theme: {
       mode: "light",
       text: "dark",
@@ -17,6 +18,7 @@ export class Navbar extends Component {
   static propTypes = {
     pageSize: PropTypes.number.isRequired,
     theme: PropTypes.object,
+    country: PropTypes.string.isRequired,
   };
 
   categoryList = [
@@ -27,6 +29,63 @@ export class Navbar extends Component {
     "science",
     "sports",
     "technology",
+  ];
+
+  countryList = [
+    "AE",
+    "AR",
+    "AT",
+    "AU",
+    "BE",
+    "BG",
+    "BR",
+    "CA",
+    "CH",
+    "CN",
+    "CO",
+    "CU",
+    "CZ",
+    "DE",
+    "EG",
+    "FR",
+    "GB",
+    "GR",
+    "HK",
+    "HU",
+    "ID",
+    "IE",
+    "IL",
+    "IN",
+    "IT",
+    "JP",
+    "KR",
+    "LT",
+    "LV",
+    "MA",
+    "MX",
+    "MY",
+    "NG",
+    "NL",
+    "NO",
+    "NZ",
+    "PH",
+    "PL",
+    "PT",
+    "RO",
+    "RS",
+    "RU",
+    "SA",
+    "SE",
+    "SG",
+    "SI",
+    "SK",
+    "TH",
+    "TR",
+    "TW",
+    "UA",
+    "US",
+    "VE",
+    "ZA",
   ];
 
   constructor(props) {
@@ -70,6 +129,40 @@ export class Navbar extends Component {
 
             {/* Right Navbar */}
             <div className="d-flex  justify-content-between">
+              <ul className="navbar-nav">
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="/#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Country
+                  </a>
+                  <div className="dropdown-menu">
+                    <ul className="p-1 d-flex flex-wrap country-dropdown">
+                      {this.countryList.map((coun) => {
+                        return (
+                          <li
+                            className={`nav-item p-2 text-center ${
+                              this.props.country === coun
+                                ? " btn btn-" + this.props.theme.button
+                                : ""
+                            }`}
+                            onClick={() => {
+                              this.props.changeCountry(coun);
+                            }}
+                          >
+                            {coun}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+
               <ul className="navbar-nav">
                 <li className="nav-item dropdown">
                   <a

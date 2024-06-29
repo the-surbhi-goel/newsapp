@@ -10,6 +10,7 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
+      country: "in",
       pageSize: 10,
       theme: {
         mode: "light",
@@ -21,6 +22,10 @@ export default class App extends Component {
 
   changePageSize = (pageSize) => {
     this.setState({ pageSize: pageSize });
+  };
+
+  changeCountry = (country) => {
+    this.setState({ country: country });
   };
 
   changeTheme = () => {
@@ -53,8 +58,10 @@ export default class App extends Component {
             <Navbar
               pageSize={this.state.pageSize}
               theme={this.state.theme}
+              country={this.state.country}
               changePageSize={this.changePageSize}
               changeTheme={this.changeTheme}
+              changeCountry={this.changeCountry}
             />
             <Routes>
               <Route
@@ -65,7 +72,7 @@ export default class App extends Component {
                     key="business"
                     theme={this.state.theme}
                     pageSize={this.state.pageSize}
-                    country={"in"}
+                    country={this.state.country}
                     category={"business"}
                   />
                 }
@@ -78,7 +85,7 @@ export default class App extends Component {
                     key="entertainment"
                     theme={this.state.theme}
                     pageSize={this.state.pageSize}
-                    country={"in"}
+                    country={this.state.country}
                     category={"entertainment"}
                   />
                 }
@@ -91,7 +98,7 @@ export default class App extends Component {
                     key="general"
                     theme={this.state.theme}
                     pageSize={this.state.pageSize}
-                    country={"in"}
+                    country={this.state.country}
                     category={"general"}
                   />
                 }
@@ -104,7 +111,7 @@ export default class App extends Component {
                     key="health"
                     theme={this.state.theme}
                     pageSize={this.state.pageSize}
-                    country={"in"}
+                    country={this.state.country}
                     category={"health"}
                   />
                 }
@@ -117,7 +124,7 @@ export default class App extends Component {
                     key="science"
                     theme={this.state.theme}
                     pageSize={this.state.pageSize}
-                    country={"in"}
+                    country={this.state.country}
                     category={"science"}
                   />
                 }
@@ -130,7 +137,7 @@ export default class App extends Component {
                     key="sports"
                     theme={this.state.theme}
                     pageSize={this.state.pageSize}
-                    country={"in"}
+                    country={this.state.country}
                     category={"sports"}
                   />
                 }
@@ -143,7 +150,7 @@ export default class App extends Component {
                     key="technology"
                     theme={this.state.theme}
                     pageSize={this.state.pageSize}
-                    country={"in"}
+                    country={this.state.country}
                     category={"technology"}
                   />
                 }
