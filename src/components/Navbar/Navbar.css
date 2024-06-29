@@ -1,0 +1,9 @@
+.form-check-input-primary:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.form-check-input-success:checked {
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+}

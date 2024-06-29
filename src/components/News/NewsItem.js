@@ -2,10 +2,10 @@ import React, { Component } from "react";
 
 export default class NewsItem extends Component {
   render() {
-    let { author, date, title, description, imageUrl, newsUrl } = this.props;
+    let { theme, author, date, title, description, imageUrl, newsUrl } = this.props;
 
     return (
-      <div className="card h-100">
+      <div className={`card h-100 bg-${theme.mode} text-${theme.text}`}>
         <img
           src={imageUrl}
           className="card-img-top"
@@ -18,7 +18,7 @@ export default class NewsItem extends Component {
           <footer className="blockquote-footer">
             By {author ? author : "Unknown"} on <cite title="Source Title">{date}</cite>
           </footer>
-          <a href={newsUrl} target="_blank" className="btn btn-sm btn-primary" rel="noreferrer">
+          <a href={newsUrl} target="_blank" className={`btn btn-sm btn-${theme.button}`} rel="noreferrer">
             Read More
           </a>
         </div>

@@ -9,12 +9,18 @@ export default class News extends Component {
     country: "in",
     pageSize: 10,
     category: "general",
+    theme: {
+      mode: "light",
+      text: "dark",
+      button: "primary",
+    },
   };
 
   static propTypes = {
     country: PropTypes.string.isRequired,
     pageSize: PropTypes.number,
     category: PropTypes.string,
+    theme: PropTypes.object,
   };
 
   constructor() {
@@ -101,7 +107,7 @@ export default class News extends Component {
     return (
       <>
         <div className="container my-3">
-          <h2> New: Top Headlines</h2>
+          <h2 className={`text-${this.props.theme.text}`}> New: Top Headlines</h2>
 
           {/* START - Spinner */}
           {this.state.loader && <Spinner />}
@@ -114,6 +120,7 @@ export default class News extends Component {
                   <div className="col-md-4 py-3">
                     <NewsItem
                       key={el.id}
+                      theme={this.props.theme}
                       author={el.author}
                       date={el.publishedAt}
                       title={el.title}
@@ -130,14 +137,14 @@ export default class News extends Component {
           <div className="container d-flex justify-content-between">
             <button
               disabled={this.state.page === 1}
-              className="btn btn-success"
+              className={`btn btn-${this.props.theme.button}`}
               onClick={this.onPrevClick}
             >
               &larr; Previous
             </button>
             <button
               disabled={!(this.state.page < this.state.totalPages)}
-              className="btn btn-success"
+              className={`btn btn-${this.props.theme.button}`}
               onClick={this.onNextClick}
             >
               Next &rarr;
