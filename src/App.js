@@ -1,7 +1,7 @@
 import "./App.css";
 
 import React, { Component } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 
 import CATEGORY from "./constants/category";
 
@@ -55,7 +55,7 @@ export default class App extends Component {
   render() {
     return (
       <>
-        <BrowserRouter>
+        <HashRouter>
           <div>
             <Navbar
               pageSize={this.state.pageSize}
@@ -66,6 +66,21 @@ export default class App extends Component {
               changeCountry={this.changeCountry}
             />
             <Routes>
+              {/* Default Route */}
+            <Route
+                    exact
+                    path="/"
+                    element={
+                      <News
+                        key={CATEGORY[0] + this.state.country + this.state.pageSize}
+                        theme={this.state.theme}
+                        pageSize={this.state.pageSize}
+                        country={this.state.country}
+                        category={CATEGORY[0]}
+                      />
+                    }
+                  />
+
               {CATEGORY.map((cate) => {
                 return (
                   <Route
@@ -86,7 +101,7 @@ export default class App extends Component {
               })}
             </Routes>
           </div>
-        </BrowserRouter>
+        </HashRouter>
       </>
     );
   }
