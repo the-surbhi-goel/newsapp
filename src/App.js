@@ -20,6 +20,16 @@ export default class App extends Component {
     };
   }
 
+  categoryList = [
+    "business",
+    "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology",
+  ];
+
   changePageSize = (pageSize) => {
     this.setState({ pageSize: pageSize });
   };
@@ -56,6 +66,7 @@ export default class App extends Component {
         <BrowserRouter>
           <div>
             <Navbar
+              categoryList={this.categoryList}
               pageSize={this.state.pageSize}
               theme={this.state.theme}
               country={this.state.country}
@@ -64,97 +75,23 @@ export default class App extends Component {
               changeCountry={this.changeCountry}
             />
             <Routes>
-              <Route
-                exact
-                path="/business"
-                element={
-                  <News
-                    key="business"
-                    theme={this.state.theme}
-                    pageSize={this.state.pageSize}
-                    country={this.state.country}
-                    category={"business"}
+              {this.categoryList.map((cate) => {
+                return (
+                  <Route
+                    exact
+                    path={`/${cate}`}
+                    element={
+                      <News
+                        key={cate + this.state.country + this.state.pageSize}
+                        theme={this.state.theme}
+                        pageSize={this.state.pageSize}
+                        country={this.state.country}
+                        category={cate}
+                      />
+                    }
                   />
-                }
-              />
-              <Route
-                exact
-                path="/entertainment"
-                element={
-                  <News
-                    key="entertainment"
-                    theme={this.state.theme}
-                    pageSize={this.state.pageSize}
-                    country={this.state.country}
-                    category={"entertainment"}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/general"
-                element={
-                  <News
-                    key="general"
-                    theme={this.state.theme}
-                    pageSize={this.state.pageSize}
-                    country={this.state.country}
-                    category={"general"}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/health"
-                element={
-                  <News
-                    key="health"
-                    theme={this.state.theme}
-                    pageSize={this.state.pageSize}
-                    country={this.state.country}
-                    category={"health"}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/science"
-                element={
-                  <News
-                    key="science"
-                    theme={this.state.theme}
-                    pageSize={this.state.pageSize}
-                    country={this.state.country}
-                    category={"science"}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/sports"
-                element={
-                  <News
-                    key="sports"
-                    theme={this.state.theme}
-                    pageSize={this.state.pageSize}
-                    country={this.state.country}
-                    category={"sports"}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/technology"
-                element={
-                  <News
-                    key="technology"
-                    theme={this.state.theme}
-                    pageSize={this.state.pageSize}
-                    country={this.state.country}
-                    category={"technology"}
-                  />
-                }
-              />
+                );
+              })}
             </Routes>
           </div>
         </BrowserRouter>

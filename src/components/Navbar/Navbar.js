@@ -6,6 +6,7 @@ import "./Navbar.css";
 
 export class Navbar extends Component {
   static defaultProps = {
+    categoryList: [],
     pageSize: 10,
     country: "in",
     theme: {
@@ -16,20 +17,11 @@ export class Navbar extends Component {
   };
 
   static propTypes = {
+    categoryList: PropTypes.array.isRequired,
     pageSize: PropTypes.number.isRequired,
     theme: PropTypes.object,
     country: PropTypes.string.isRequired,
   };
-
-  categoryList = [
-    "business",
-    "entertainment",
-    "general",
-    "health",
-    "science",
-    "sports",
-    "technology",
-  ];
 
   countryList = [
     "AE",
@@ -118,7 +110,7 @@ export class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {/* Left Navbar */}
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              {this.categoryList.map((category) => {
+              {this.props.categoryList.map((category) => {
                 return (
                   <li className="nav-item">
                     <NavbarItem key={category} item={category} />
