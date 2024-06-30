@@ -3,6 +3,8 @@ import "./App.css";
 import React, { Component } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import CATEGORY from "./constants/category";
+
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 
@@ -19,16 +21,6 @@ export default class App extends Component {
       },
     };
   }
-
-  categoryList = [
-    "business",
-    "entertainment",
-    "general",
-    "health",
-    "science",
-    "sports",
-    "technology",
-  ];
 
   changePageSize = (pageSize) => {
     this.setState({ pageSize: pageSize });
@@ -66,7 +58,6 @@ export default class App extends Component {
         <BrowserRouter>
           <div>
             <Navbar
-              categoryList={this.categoryList}
               pageSize={this.state.pageSize}
               theme={this.state.theme}
               country={this.state.country}
@@ -75,9 +66,10 @@ export default class App extends Component {
               changeCountry={this.changeCountry}
             />
             <Routes>
-              {this.categoryList.map((cate) => {
+              {CATEGORY.map((cate) => {
                 return (
                   <Route
+                    key={cate}
                     exact
                     path={`/${cate}`}
                     element={

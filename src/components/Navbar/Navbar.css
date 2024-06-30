@@ -15,4 +15,9 @@
 .country-dropdown li {
     list-style: none;
     width: 20%;
+    cursor: pointer;
+}
+
+.pageSize-dropdown li {
+    cursor: pointer;
 }

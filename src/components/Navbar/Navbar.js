@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import NavbarItem from "./NavbarItem";
 import PropTypes from "prop-types";
+import CATEGORY from "../../constants/category";
+import COUNTRY from "../../constants/country";
 
 import "./Navbar.css";
 
 export class Navbar extends Component {
   static defaultProps = {
-    categoryList: [],
     pageSize: 10,
     country: "in",
     theme: {
@@ -17,68 +18,10 @@ export class Navbar extends Component {
   };
 
   static propTypes = {
-    categoryList: PropTypes.array.isRequired,
     pageSize: PropTypes.number.isRequired,
     theme: PropTypes.object,
     country: PropTypes.string.isRequired,
   };
-
-  countryList = [
-    "AE",
-    "AR",
-    "AT",
-    "AU",
-    "BE",
-    "BG",
-    "BR",
-    "CA",
-    "CH",
-    "CN",
-    "CO",
-    "CU",
-    "CZ",
-    "DE",
-    "EG",
-    "FR",
-    "GB",
-    "GR",
-    "HK",
-    "HU",
-    "ID",
-    "IE",
-    "IL",
-    "IN",
-    "IT",
-    "JP",
-    "KR",
-    "LT",
-    "LV",
-    "MA",
-    "MX",
-    "MY",
-    "NG",
-    "NL",
-    "NO",
-    "NZ",
-    "PH",
-    "PL",
-    "PT",
-    "RO",
-    "RS",
-    "RU",
-    "SA",
-    "SE",
-    "SG",
-    "SI",
-    "SK",
-    "TH",
-    "TR",
-    "TW",
-    "UA",
-    "US",
-    "VE",
-    "ZA",
-  ];
 
   constructor(props) {
     super(props);
@@ -110,10 +53,10 @@ export class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {/* Left Navbar */}
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              {this.props.categoryList.map((category) => {
+              {CATEGORY.map((category) => {
                 return (
-                  <li className="nav-item">
-                    <NavbarItem key={category} item={category} />
+                  <li key={category} className="nav-item">
+                    <NavbarItem item={category} />
                   </li>
                 );
               })}
@@ -134,9 +77,10 @@ export class Navbar extends Component {
                   </a>
                   <div className="dropdown-menu">
                     <ul className="p-1 d-flex flex-wrap country-dropdown">
-                      {this.countryList.map((coun) => {
+                      {COUNTRY.map((coun) => {
                         return (
                           <li
+                            key={coun}
                             className={`nav-item p-2 text-center ${
                               this.props.country === coun
                                 ? " btn btn-" + this.props.theme.button
@@ -166,37 +110,24 @@ export class Navbar extends Component {
                   >
                     Articles Per Page
                   </a>
-                  <ul className="dropdown-menu p-0">
-                    <li
-                      className={`nav-item p-3 text-center ${
-                        this.props.pageSize === 5 ? "w-100 btn btn-" + this.props.theme.button : ""
-                      }`}
-                      onClick={() => {
-                        this.props.changePageSize(5);
-                      }}
-                    >
-                      5
-                    </li>
-                    <li
-                      className={`nav-item p-3 text-center ${
-                        this.props.pageSize === 10 ? "w-100 btn btn-" + this.props.theme.button : ""
-                      }`}
-                      onClick={() => {
-                        this.props.changePageSize(10);
-                      }}
-                    >
-                      10
-                    </li>
-                    <li
-                      className={`nav-item p-3 text-center ${
-                        this.props.pageSize === 20 ? "w-100 btn btn-" + this.props.theme.button : ""
-                      }`}
-                      onClick={() => {
-                        this.props.changePageSize(20);
-                      }}
-                    >
-                      20
-                    </li>
+                  <ul className="dropdown-menu p-0 pageSize-dropdown">
+                    {[5, 10, 20, 50].map((size) => {
+                      return (
+                        <li
+                          key={size}
+                          className={`nav-item p-3 text-center ${
+                            this.props.pageSize === size
+                              ? "w-100 btn btn-" + this.props.theme.button
+                              : ""
+                          }`}
+                          onClick={() => {
+                            this.props.changePageSize(size);
+                          }}
+                        >
+                          {size}
+                        </li>
+                      );
+                    })}
                   </ul>
                 </li>
               </ul>

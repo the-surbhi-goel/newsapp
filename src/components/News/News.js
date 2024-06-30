@@ -4,6 +4,8 @@ import NewsItem from "./NewsItem";
 import PropTypes from "prop-types";
 import Spinner from "../Spinner/Spinner";
 
+import API from "../../constants/api"
+
 export default class News extends Component {
   static defaultProps = {
     country: "in",
@@ -54,13 +56,16 @@ export default class News extends Component {
   handleAPIData = async (pageNo) => {
     this.setState({ loader: true });
     let url =
-      `https://newsapi.org/v2/top-headlines?apiKey=31613b98c9864e3ba1a217e357eea17d&` +
+      `${API.topHeadlines}?apiKey=31613b98c9864e3ba1a217e357eea17d&` +
       `country=${this.props.country}&category=${this.props.category}&page=${pageNo}&` +
       `pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let jsonData = await data.json();
 
-    jsonData?.articles.forEach((el) => {
+    jsonData?.articles.forEach((el, index) => {
+
+      el.id = index;
+
       if (el.publishedAt) {
         let d = new Date(el.publishedAt);
         el.publishedAt = d.toGMTString();
@@ -117,9 +122,8 @@ export default class News extends Component {
             {!this.state.loader &&
               this.state.articles.map((el) => {
                 return (
-                  <div className="col-md-4 py-3">
+                  <div key={el.id} className="col-md-4 py-3">
                     <NewsItem
-                      key={el.id}
                       theme={this.props.theme}
                       author={el.author}
                       date={el.publishedAt}
