@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/the-surbhi-goel/newsapp/static/css/main.a665c8e6.css",
-    "main.js": "/the-surbhi-goel/newsapp/static/js/main.62b5e222.js",
+    "main.js": "/the-surbhi-goel/newsapp/static/js/main.097057ae.js",
     "static/js/453.b2157c12.chunk.js": "/the-surbhi-goel/newsapp/static/js/453.b2157c12.chunk.js",
     "static/media/spinner.gif": "/the-surbhi-goel/newsapp/static/media/spinner.40d38d4e7df2deb44053.gif",
     "index.html": "/the-surbhi-goel/newsapp/index.html",
     "main.a665c8e6.css.map": "/the-surbhi-goel/newsapp/static/css/main.a665c8e6.css.map",
-    "main.62b5e222.js.map": "/the-surbhi-goel/newsapp/static/js/main.62b5e222.js.map",
+    "main.097057ae.js.map": "/the-surbhi-goel/newsapp/static/js/main.097057ae.js.map",
     "453.b2157c12.chunk.js.map": "/the-surbhi-goel/newsapp/static/js/453.b2157c12.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a665c8e6.css",
-    "static/js/main.62b5e222.js"
+    "static/js/main.097057ae.js"
   ]
 }
