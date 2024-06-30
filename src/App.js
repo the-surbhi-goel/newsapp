@@ -66,6 +66,21 @@ export default class App extends Component {
               changeCountry={this.changeCountry}
             />
             <Routes>
+              {/* Default Route */}
+            <Route
+                    exact
+                    path="/"
+                    element={
+                      <News
+                        key={CATEGORY[0] + this.state.country + this.state.pageSize}
+                        theme={this.state.theme}
+                        pageSize={this.state.pageSize}
+                        country={this.state.country}
+                        category={CATEGORY[0]}
+                      />
+                    }
+                  />
+
               {CATEGORY.map((cate) => {
                 return (
                   <Route
