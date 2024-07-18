@@ -1,7 +1,7 @@
 import "./App.css";
 
 import React, { Component } from "react";
-import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import CATEGORY from "./constants/category";
 
@@ -55,7 +55,7 @@ export default class App extends Component {
   render() {
     return (
       <>
-        <HashRouter>
+        <BrowserRouter>
           <div>
             <Navbar
               pageSize={this.state.pageSize}
@@ -101,7 +101,7 @@ export default class App extends Component {
               })}
             </Routes>
           </div>
-        </HashRouter>
+        </BrowserRouter>
       </>
     );
   }

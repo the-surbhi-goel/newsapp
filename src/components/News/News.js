@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import PropTypes from "prop-types";
 import Spinner from "../Spinner/Spinner";
 
-import API from "../../constants/api"
+import API from "../../constants/api";
 
 export default class News extends Component {
   static defaultProps = {
@@ -32,6 +33,7 @@ export default class News extends Component {
       loader: true,
       page: 1,
       totalPages: 0,
+      totalResults: 0,
     };
   }
 
@@ -53,6 +55,16 @@ export default class News extends Component {
     });
   };
 
+  fetchMoreData = async () => {
+
+    let jsonData = await this.handleAPIData(this.state.page + 1);
+
+    this.setState({
+      articles: this.state.articles.concat(Array.from(jsonData.articles)),
+      page: this.state.page + 1,
+    });
+  };
+
   handleAPIData = async (pageNo) => {
     this.setState({ loader: true });
     let url =
@@ -63,8 +75,7 @@ export default class News extends Component {
     let jsonData = await data.json();
 
     jsonData?.articles.forEach((el, index) => {
-
-      el.id = index;
+      el.id = index + '' + pageNo;
 
       if (el.publishedAt) {
         let d = new Date(el.publishedAt);
@@ -87,6 +98,7 @@ export default class News extends Component {
 
     if (pageNo === 1) {
       this.setState({
+        totalResults: jsonData.totalResults,
         totalPages: jsonData.totalResults / this.props.pageSize,
         loader: false,
       });
@@ -118,9 +130,14 @@ export default class News extends Component {
           {this.state.loader && <Spinner />}
           {/* END - Spinner */}
 
-          <div className="row">
-            {!this.state.loader &&
-              this.state.articles.map((el) => {
+          <InfiniteScroll
+            dataLength={this.state.articles.length}
+            next={this.fetchMoreData}
+            hasMore={this.state.articles.length !== this.state.totalResults}
+            loader={<Spinner />}
+          >
+            <div className="row">
+              {this.state.articles.map((el) => {
                 return (
                   <div key={el.id} className="col-md-4 py-3">
                     <NewsItem
@@ -135,9 +152,12 @@ export default class News extends Component {
                   </div>
                 );
               })}
-          </div>
+            </div>
+          </InfiniteScroll>
         </div>
-        {!this.state.loader && (
+
+        {/* Commented code for Prev and Next button */}
+        {/* {!this.state.loader && (
           <div className="container d-flex justify-content-between">
             <button
               disabled={this.state.page === 1}
@@ -154,7 +174,7 @@ export default class News extends Component {
               Next &rarr;
             </button>
           </div>
-        )}
+        )} */}
       </>
     );
   }
