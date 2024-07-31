@@ -1,28 +1,33 @@
-import React, { Component } from "react";
+import React from "react";
 
-export default class NewsItem extends Component {
-  render() {
-    let { theme, author, date, title, description, imageUrl, newsUrl } = this.props;
+const NewsItem = (props) => {
+  let { theme, author, date, title, description, imageUrl, newsUrl } = props;
 
-    return (
-      <div className={`card h-100 bg-${theme.mode} text-${theme.text}`}>
-        <img
-          src={imageUrl}
-          className="card-img-top"
-          alt="not available"
-          style={{ minHeight: "160px" }}
-        />
-        <div className="card-body">
-          <h5 className="card-title">{title}</h5>
-          <p className="card-text">{description}</p>
-          <footer className="blockquote-footer">
-            By {author ? author : "Unknown"} on <cite title="Source Title">{date}</cite>
-          </footer>
-          <a href={newsUrl} target="_blank" className={`btn btn-sm btn-${theme.button}`} rel="noreferrer">
-            Read More
-          </a>
-        </div>
+  return (
+    <div className={`card h-100 bg-${theme.mode} text-${theme.text}`}>
+      <img
+        src={imageUrl}
+        className="card-img-top"
+        alt="not available"
+        style={{ minHeight: "160px" }}
+      />
+      <div className="card-body">
+        <h5 className="card-title">{title}</h5>
+        <p className="card-text">{description}</p>
+        <footer className="blockquote-footer">
+          By {author ? author : "Unknown"} on <cite title="Source Title">{date}</cite>
+        </footer>
+        <a
+          href={newsUrl}
+          target="_blank"
+          className={`btn btn-sm btn-${theme.button}`}
+          rel="noreferrer"
+        >
+          Read More
+        </a>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default NewsItem;

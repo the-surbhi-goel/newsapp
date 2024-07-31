@@ -1,6 +1,6 @@
 import "./App.css";
 
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 
@@ -9,41 +9,29 @@ import CATEGORY from "./constants/category";
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 
-export default class App extends Component {
-  apiKey = process.env.REACT_APP_NEWS_API;
-  state = {
-    progress: 0,
+ const App = () => {
+  const apiKey = process.env.REACT_APP_NEWS_API;
+  const [progress, setProgress] = useState(0);
+  const [country, setCountry] = useState("in");
+  const [pageSize, setPageSize] = useState(10);
+  const [theme, setTheme] = useState({
+    mode: "light",
+    text: "dark",
+    button: "primary",
+  });
+
+  const changePageSize = (pageSize) => {
+    setPageSize(pageSize);
   };
 
-  setProgress = (progress) => {
-    this.setState({ progress: progress });
+  const changeCountry = (country) => {
+    setCountry(country);
   };
 
-  constructor() {
-    super();
-    this.state = {
-      country: "in",
-      pageSize: 10,
-      theme: {
-        mode: "light",
-        text: "dark",
-        button: "primary",
-      },
-    };
-  }
-
-  changePageSize = (pageSize) => {
-    this.setState({ pageSize: pageSize });
-  };
-
-  changeCountry = (country) => {
-    this.setState({ country: country });
-  };
-
-  changeTheme = () => {
-    if (this.state.theme.mode === "light") {
+  const changeTheme = () => {
+    if (theme.mode === "light") {
       document.body.style.backgroundColor = "grey";
-      this.setState({
+      setTheme({
         theme: {
           mode: "dark",
           text: "white",
@@ -52,7 +40,7 @@ export default class App extends Component {
       });
     } else {
       document.body.style.backgroundColor = "white";
-      this.setState({
+      setTheme({
         theme: {
           mode: "light",
           text: "dark",
@@ -62,19 +50,18 @@ export default class App extends Component {
     }
   };
 
-  render() {
     return (
       <>
         <BrowserRouter>
           <div>
-            <LoadingBar color="#f11946" progress={this.state.progress} />
+            <LoadingBar color="#f11946" progress={progress} />
             <Navbar
-              pageSize={this.state.pageSize}
-              theme={this.state.theme}
-              country={this.state.country}
-              changePageSize={this.changePageSize}
-              changeTheme={this.changeTheme}
-              changeCountry={this.changeCountry}
+              pageSize={pageSize}
+              theme={theme}
+              country={country}
+              changePageSize={changePageSize}
+              changeTheme={changeTheme}
+              changeCountry={changeCountry}
             />
             <Routes>
               {/* Default Route */}
@@ -83,12 +70,12 @@ export default class App extends Component {
                 path="/"
                 element={
                   <News
-                    apiKey={this.apiKey}
-                    setProgress={this.setProgress}
-                    key={CATEGORY[0] + this.state.country + this.state.pageSize}
-                    theme={this.state.theme}
-                    pageSize={this.state.pageSize}
-                    country={this.state.country}
+                    apiKey={apiKey}
+                    setProgress={setProgress}
+                    key={CATEGORY[0] + country + pageSize}
+                    theme={theme}
+                    pageSize={pageSize}
+                    country={country}
                     category={CATEGORY[0]}
                   />
                 }
@@ -102,12 +89,12 @@ export default class App extends Component {
                     path={`/${cate}`}
                     element={
                       <News
-                        apiKey={this.apiKey}
-                        setProgress={this.setProgress}
-                        key={cate + this.state.country + this.state.pageSize}
-                        theme={this.state.theme}
-                        pageSize={this.state.pageSize}
-                        country={this.state.country}
+                        apiKey={apiKey}
+                        setProgress={setProgress}
+                        key={cate + country + pageSize}
+                        theme={theme}
+                        pageSize={pageSize}
+                        country={country}
                         category={cate}
                       />
                     }
@@ -119,5 +106,6 @@ export default class App extends Component {
         </BrowserRouter>
       </>
     );
-  }
 }
+
+export default App;
