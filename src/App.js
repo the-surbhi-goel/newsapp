@@ -10,13 +10,14 @@ import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 
 export default class App extends Component {
+  apiKey = process.env.REACT_APP_NEWS_API;
   state = {
     progress: 0,
   };
 
   setProgress = (progress) => {
     this.setState({ progress: progress });
-  }
+  };
 
   constructor() {
     super();
@@ -66,10 +67,7 @@ export default class App extends Component {
       <>
         <BrowserRouter>
           <div>
-            <LoadingBar
-              color="#f11946"
-              progress={this.state.progress}
-            />
+            <LoadingBar color="#f11946" progress={this.state.progress} />
             <Navbar
               pageSize={this.state.pageSize}
               theme={this.state.theme}
@@ -85,6 +83,7 @@ export default class App extends Component {
                 path="/"
                 element={
                   <News
+                    apiKey={this.apiKey}
                     setProgress={this.setProgress}
                     key={CATEGORY[0] + this.state.country + this.state.pageSize}
                     theme={this.state.theme}
@@ -103,6 +102,7 @@ export default class App extends Component {
                     path={`/${cate}`}
                     element={
                       <News
+                        apiKey={this.apiKey}
                         setProgress={this.setProgress}
                         key={cate + this.state.country + this.state.pageSize}
                         theme={this.state.theme}

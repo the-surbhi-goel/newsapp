@@ -69,7 +69,7 @@ export default class News extends Component {
     this.props.setProgress(10);
     this.setState({ loader: true });
     let url =
-      `${API.topHeadlines}?apiKey=31613b98c9864e3ba1a217e357eea17d&` +
+      `${API.topHeadlines}?apiKey=${this.props.apiKey}&` +
       `country=${this.props.country}&category=${this.props.category}&page=${pageNo}&` +
       `pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
