@@ -2,6 +2,7 @@ import "./App.css";
 
 import React, { Component } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoadingBar from "react-top-loading-bar";
 
 import CATEGORY from "./constants/category";
 
@@ -9,6 +10,14 @@ import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 
 export default class App extends Component {
+  state = {
+    progress: 0,
+  };
+
+  setProgress = (progress) => {
+    this.setState({ progress: progress });
+  }
+
   constructor() {
     super();
     this.state = {
@@ -57,6 +66,10 @@ export default class App extends Component {
       <>
         <BrowserRouter>
           <div>
+            <LoadingBar
+              color="#f11946"
+              progress={this.state.progress}
+            />
             <Navbar
               pageSize={this.state.pageSize}
               theme={this.state.theme}
@@ -67,19 +80,20 @@ export default class App extends Component {
             />
             <Routes>
               {/* Default Route */}
-            <Route
-                    exact
-                    path="/"
-                    element={
-                      <News
-                        key={CATEGORY[0] + this.state.country + this.state.pageSize}
-                        theme={this.state.theme}
-                        pageSize={this.state.pageSize}
-                        country={this.state.country}
-                        category={CATEGORY[0]}
-                      />
-                    }
+              <Route
+                exact
+                path="/"
+                element={
+                  <News
+                    setProgress={this.setProgress}
+                    key={CATEGORY[0] + this.state.country + this.state.pageSize}
+                    theme={this.state.theme}
+                    pageSize={this.state.pageSize}
+                    country={this.state.country}
+                    category={CATEGORY[0]}
                   />
+                }
+              />
 
               {CATEGORY.map((cate) => {
                 return (
@@ -89,6 +103,7 @@ export default class App extends Component {
                     path={`/${cate}`}
                     element={
                       <News
+                        setProgress={this.setProgress}
                         key={cate + this.state.country + this.state.pageSize}
                         theme={this.state.theme}
                         pageSize={this.state.pageSize}
